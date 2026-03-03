@@ -1,0 +1,6 @@
+Ticker,Type,Strike,Maturity
+AAPL,call,175.50,0.5
+TSLA,put,200.00,1.2
+MSFT,call,400.00,0.25
+NVDA,put,850.00,0.8
+AMZN,call,150.00,2.0

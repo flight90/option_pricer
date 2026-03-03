@@ -1,0 +1,487 @@
+    INFO: 2026-03-02 23:18:25,613:               log.py:   20: Logging to C:\Users\Peter Luo\.gemini\antigravity\scratch\option_pricer\mdpdf.log
+   DEBUG: 2026-03-02 23:18:25,614:               cli.py:  103: C:\Users\Peter Luo\.gemini\antigravity\brain\88668da2-f438-4fcb-b333-e9b4106cd981\implementation_plan.md
+    INFO: 2026-03-02 23:18:25,614:         converter.py:   14: C:\Users\Peter Luo\.gemini\antigravity\brain\88668da2-f438-4fcb-b333-e9b4106cd981\implementation_plan.md
+   DEBUG: 2026-03-02 23:18:25,622:      pdf_renderer.py:  470: printSegment: Maltese — Full Implementation Reference
+   DEBUG: 2026-03-02 23:18:25,630:      pdf_renderer.py:  470: printSegment: Overview
+   DEBUG: 2026-03-02 23:18:25,631:      pdf_renderer.py:  470: printSegment: A full-stack option pricing and booking application with a 
+   DEBUG: 2026-03-02 23:18:25,632:      pdf_renderer.py:  470: printSegment: FastAPI
+   DEBUG: 2026-03-02 23:18:25,633:      pdf_renderer.py:  470: printSegment:  backend and a premium 
+   DEBUG: 2026-03-02 23:18:25,634:      pdf_renderer.py:  470: printSegment: Vanilla JS
+   DEBUG: 2026-03-02 23:18:25,637:      pdf_renderer.py:  470: printSegment:  frontend.
+   DEBUG: 2026-03-02 23:18:25,638:      pdf_renderer.py:  470: printSegment: Supports multi-option pricing grids, file batch uploads, live email inbox integration, and selective booking.
+   DEBUG: 2026-03-02 23:18:25,638:      pdf_renderer.py:  470: printSegment: Architecture
+   DEBUG: 2026-03-02 23:18:25,639:      pdf_renderer.py:  470: printSegment: graph LR
+   DEBUG: 2026-03-02 23:18:25,640:      pdf_renderer.py:  470: printSegment:     subgraph Frontend
+   DEBUG: 2026-03-02 23:18:25,641:      pdf_renderer.py:  470: printSegment:         A[index.html] --> B[app.js]
+   DEBUG: 2026-03-02 23:18:25,641:      pdf_renderer.py:  470: printSegment:         A --> C[style.css]
+   DEBUG: 2026-03-02 23:18:25,642:      pdf_renderer.py:  470: printSegment:         B -->|Flatpickr CDN| D[Date Picker]
+   DEBUG: 2026-03-02 23:18:25,642:      pdf_renderer.py:  470: printSegment:     end
+   DEBUG: 2026-03-02 23:18:25,642:      pdf_renderer.py:  470: printSegment:     subgraph Backend
+   DEBUG: 2026-03-02 23:18:25,643:      pdf_renderer.py:  470: printSegment:         E[main.py - FastAPI] --> F[black_scholes.py]
+   DEBUG: 2026-03-02 23:18:25,643:      pdf_renderer.py:  470: printSegment:         E --> G[file_parser.py]
+   DEBUG: 2026-03-02 23:18:25,644:      pdf_renderer.py:  470: printSegment:         E --> H[email_service.py]
+   DEBUG: 2026-03-02 23:18:25,644:      pdf_renderer.py:  470: printSegment:         E --> I[api_client.py]
+   DEBUG: 2026-03-02 23:18:25,645:      pdf_renderer.py:  470: printSegment:     end
+   DEBUG: 2026-03-02 23:18:25,645:      pdf_renderer.py:  470: printSegment:     B -->|HTTP| E
+   DEBUG: 2026-03-02 23:18:25,645:      pdf_renderer.py:  470: printSegment:     E -->|StaticFiles /frontend/| A
+   DEBUG: 2026-03-02 23:18:25,646:      pdf_renderer.py:  470: printSegment: File Structure
+   DEBUG: 2026-03-02 23:18:25,646:      pdf_renderer.py:  470: printSegment: option_pricer/
+   DEBUG: 2026-03-02 23:18:25,646:      pdf_renderer.py:  470: printSegment: ├── backend/
+   DEBUG: 2026-03-02 23:18:25,656:      pdf_renderer.py:  470: printSegment: │   ├── main.py                    # FastAPI app, routes, static file
+   DEBUG: 2026-03-02 23:18:25,657:      pdf_renderer.py:  470: printSegment: serving
+   DEBUG: 2026-03-02 23:18:25,657:      pdf_renderer.py:  470: printSegment: │   ├── pricing/
+   DEBUG: 2026-03-02 23:18:25,658:      pdf_renderer.py:  470: printSegment: │   │   └── black_scholes.py       # Generalized BS model + delta +
+   DEBUG: 2026-03-02 23:18:25,659:      pdf_renderer.py:  470: printSegment: market data
+   DEBUG: 2026-03-02 23:18:25,659:      pdf_renderer.py:  470: printSegment: │   ├── parsers/
+   DEBUG: 2026-03-02 23:18:25,660:      pdf_renderer.py:  470: printSegment: │   │   ├── file_parser.py         # Excel/CSV/TXT parser with fuzzy
+   DEBUG: 2026-03-02 23:18:25,660:      pdf_renderer.py:  470: printSegment: column matching
+   DEBUG: 2026-03-02 23:18:25,661:      pdf_renderer.py:  470: printSegment: │   │   └── email_service.py       # Mock email inbox with parsed pricing
+   DEBUG: 2026-03-02 23:18:25,662:      pdf_renderer.py:  470: printSegment: requests
+   DEBUG: 2026-03-02 23:18:25,662:      pdf_renderer.py:  470: printSegment: │   └── booking/
+   DEBUG: 2026-03-02 23:18:25,663:      pdf_renderer.py:  470: printSegment: │       └── api_client.py          # Trade booking stub
+   DEBUG: 2026-03-02 23:18:25,663:      pdf_renderer.py:  470: printSegment: └── frontend/
+   DEBUG: 2026-03-02 23:18:25,664:      pdf_renderer.py:  470: printSegment:     ├── index.html                 # Page structure + Flatpickr CDN
+   DEBUG: 2026-03-02 23:18:25,665:      pdf_renderer.py:  470: printSegment:     ├── app.js                     # All grid, upload, inbox,
+   DEBUG: 2026-03-02 23:18:25,665:      pdf_renderer.py:  470: printSegment: pricing, copy logic
+   DEBUG: 2026-03-02 23:18:25,666:      pdf_renderer.py:  470: printSegment:     └── style.css                  # Premium dark theme + Flatpickr
+   DEBUG: 2026-03-02 23:18:25,666:      pdf_renderer.py:  470: printSegment: overrides
+   DEBUG: 2026-03-02 23:18:25,667:      pdf_renderer.py:  470: printSegment: Pricing Engine
+   DEBUG: 2026-03-02 23:18:25,668:      pdf_renderer.py:  470: printSegment: Generalized Black-Scholes with Cost-of-Carry
+   DEBUG: 2026-03-02 23:18:25,668:      pdf_renderer.py:  470: printSegment: Located in 
+   DEBUG: 2026-03-02 23:18:25,669:      pdf_renderer.py:  470: printSegment: black
+   DEBUG: 2026-03-02 23:18:25,669:      pdf_renderer.py:  470: printSegment: _
+   DEBUG: 2026-03-02 23:18:25,669:      pdf_renderer.py:  470: printSegment: scholes.py
+   DEBUG: 2026-03-02 23:18:25,670:      pdf_renderer.py:  470: printSegment: .
+   DEBUG: 2026-03-02 23:18:25,670:      pdf_renderer.py:  470: printSegment: Core formulas:
+   DEBUG: 2026-03-02 23:18:25,671:      pdf_renderer.py:  470: printSegment: | Component | Formula |
+   DEBUG: 2026-03-02 23:18:25,671:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,671:      pdf_renderer.py:  470: printSegment: |-----------|---------|
+   DEBUG: 2026-03-02 23:18:25,672:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,672:      pdf_renderer.py:  470: printSegment: | d1 | 
+   DEBUG: 2026-03-02 23:18:25,672:      pdf_renderer.py:  470: printSegment: (ln(S/K) + (b + σ²/2)T) / (σ√T)
+   DEBUG: 2026-03-02 23:18:25,673:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,673:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,673:      pdf_renderer.py:  470: printSegment: | d2 | 
+   DEBUG: 2026-03-02 23:18:25,674:      pdf_renderer.py:  470: printSegment: d1 - σ√T
+   DEBUG: 2026-03-02 23:18:25,674:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,674:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,675:      pdf_renderer.py:  470: printSegment: |
+   DEBUG: 2026-03-02 23:18:25,675:      pdf_renderer.py:  470: printSegment: Call Price | 
+   DEBUG: 2026-03-02 23:18:25,675:      pdf_renderer.py:  470: printSegment: S·e^((b-r)T)·N(d1) - K·e^(-rT)·N(d2)
+   DEBUG: 2026-03-02 23:18:25,676:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,676:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,676:      pdf_renderer.py:  470: printSegment: | Put Price | 
+   DEBUG: 2026-03-02 23:18:25,677:      pdf_renderer.py:  470: printSegment: K·e^(-rT)·N(-d2) -
+   DEBUG: 2026-03-02 23:18:25,677:      pdf_renderer.py:  470: printSegment: S·e^((b-r)T)·N(-d1)
+   DEBUG: 2026-03-02 23:18:25,677:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,678:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,678:      pdf_renderer.py:  470: printSegment: | Call Delta | 
+   DEBUG: 2026-03-02 23:18:25,678:      pdf_renderer.py:  470: printSegment: e^((b-r)T)·N(d1)
+   DEBUG: 2026-03-02 23:18:25,679:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,679:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,679:      pdf_renderer.py:  470: printSegment: | Put Delta | 
+   DEBUG: 2026-03-02 23:18:25,680:      pdf_renderer.py:  470: printSegment: e^((b-r)T)·(N(d1) - 1)
+   DEBUG: 2026-03-02 23:18:25,681:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,681:      pdf_renderer.py:  470: printSegment: Cost-of-Carry (
+   DEBUG: 2026-03-02 23:18:25,682:      pdf_renderer.py:  470: printSegment: b
+   DEBUG: 2026-03-02 23:18:25,682:      pdf_renderer.py:  470: printSegment: ) by Return Type
+   DEBUG: 2026-03-02 23:18:25,683:      pdf_renderer.py:  470: printSegment: | Return Type | Cost-of-Carry |
+   DEBUG: 2026-03-02 23:18:25,683:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,684:      pdf_renderer.py:  470: printSegment: |------------|---------------|
+   DEBUG: 2026-03-02 23:18:25,684:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,684:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,684:      pdf_renderer.py:  470: printSegment: TotalReturn
+   DEBUG: 2026-03-02 23:18:25,685:      pdf_renderer.py:  470: printSegment:  (default) | 
+   DEBUG: 2026-03-02 23:18:25,685:      pdf_renderer.py:  470: printSegment: b = r - div - borrow
+   DEBUG: 2026-03-02 23:18:25,686:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,686:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,686:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,687:      pdf_renderer.py:  470: printSegment: ExcessReturn
+   DEBUG: 2026-03-02 23:18:25,687:      pdf_renderer.py:  470: printSegment:  | 
+   DEBUG: 2026-03-02 23:18:25,687:      pdf_renderer.py:  470: printSegment: b = -div - borrow
+   DEBUG: 2026-03-02 23:18:25,688:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,688:      pdf_renderer.py:  470: printSegment: Return Type Map
+   DEBUG: 2026-03-02 23:18:25,688:      pdf_renderer.py:  470: printSegment: Predefined in 
+   DEBUG: 2026-03-02 23:18:25,689:      pdf_renderer.py:  470: printSegment: RETURN_TYPE_MAP
+   DEBUG: 2026-03-02 23:18:25,689:      pdf_renderer.py:  470: printSegment: . Tickers like 
+   DEBUG: 2026-03-02 23:18:25,689:      pdf_renderer.py:  470: printSegment: SPX
+   DEBUG: 2026-03-02 23:18:25,690:      pdf_renderer.py:  470: printSegment: , 
+   DEBUG: 2026-03-02 23:18:25,690:      pdf_renderer.py:  470: printSegment: NDX
+   DEBUG: 2026-03-02 23:18:25,690:      pdf_renderer.py:  470: printSegment: , 
+   DEBUG: 2026-03-02 23:18:25,691:      pdf_renderer.py:  470: printSegment: RTY
+   DEBUG: 2026-03-02 23:18:25,691:      pdf_renderer.py:  470: printSegment:  → 
+   DEBUG: 2026-03-02 23:18:25,698:      pdf_renderer.py:  470: printSegment: ExcessReturn
+   DEBUG: 2026-03-02 23:18:25,699:      pdf_renderer.py:  470: printSegment: . All others default to 
+   DEBUG: 2026-03-02 23:18:25,699:      pdf_renderer.py:  470: printSegment: TotalReturn
+   DEBUG: 2026-03-02 23:18:25,700:      pdf_renderer.py:  470: printSegment: .
+   DEBUG: 2026-03-02 23:18:25,700:      pdf_renderer.py:  470: printSegment: Strike Types
+   DEBUG: 2026-03-02 23:18:25,700:      pdf_renderer.py:  470: printSegment: | Type | Input Format | Backend Resolution |
+   DEBUG: 2026-03-02 23:18:25,701:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,701:      pdf_renderer.py:  470: printSegment: |------|-------------|-------------------|
+   DEBUG: 2026-03-02 23:18:25,702:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,702:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,702:      pdf_renderer.py:  470: printSegment: AbsStrike
+   DEBUG: 2026-03-02 23:18:25,703:      pdf_renderer.py:  470: printSegment:  | Dollar value (e.g. 
+   DEBUG: 2026-03-02 23:18:25,703:      pdf_renderer.py:  470: printSegment: 150
+   DEBUG: 2026-03-02 23:18:25,704:      pdf_renderer.py:  470: printSegment: )
+   DEBUG: 2026-03-02 23:18:25,704:      pdf_renderer.py:  470: printSegment: | Used directly as K |
+   DEBUG: 2026-03-02 23:18:25,704:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,705:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,705:      pdf_renderer.py:  470: printSegment: RelativeStrike
+   DEBUG: 2026-03-02 23:18:25,705:      pdf_renderer.py:  470: printSegment:  | Percentage (e.g. 
+   DEBUG: 2026-03-02 23:18:25,706:      pdf_renderer.py:  470: printSegment: 110
+   DEBUG: 2026-03-02 23:18:25,706:      pdf_renderer.py:  470: printSegment:  = 110%) | 
+   DEBUG: 2026-03-02 23:18:25,707:      pdf_renderer.py:  470: printSegment: K = (110/100) × RefSpot
+   DEBUG: 2026-03-02 23:18:25,707:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,708:      pdf_renderer.py:  470: printSegment: API Endpoints
+   DEBUG: 2026-03-02 23:18:25,708:      pdf_renderer.py:  470: printSegment: Base: 
+   DEBUG: 2026-03-02 23:18:25,708:      pdf_renderer.py:  470: printSegment: http://127.0.0.1:8000
+   DEBUG: 2026-03-02 23:18:25,709:      pdf_renderer.py:  470: printSegment: | Method | Path | Description |
+   DEBUG: 2026-03-02 23:18:25,709:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,710:      pdf_renderer.py:  470: printSegment: |--------|------|-------------|
+   DEBUG: 2026-03-02 23:18:25,710:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,710:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,711:      pdf_renderer.py:  470: printSegment: GET
+   DEBUG: 2026-03-02 23:18:25,711:      pdf_renderer.py:  470: printSegment:  | 
+   DEBUG: 2026-03-02 23:18:25,712:      pdf_renderer.py:  470: printSegment: /api/defaults/{ticker}
+   DEBUG: 2026-03-02 23:18:25,712:      pdf_renderer.py:  470: printSegment:  | Returns spot, rate,
+   DEBUG: 2026-03-02 23:18:25,713:      pdf_renderer.py:  470: printSegment: vol, div, borrow, return
+   DEBUG: 2026-03-02 23:18:25,713:      pdf_renderer.py:  470: printSegment: _
+   DEBUG: 2026-03-02 23:18:25,714:      pdf_renderer.py:  470: printSegment: type |
+   DEBUG: 2026-03-02 23:18:25,714:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,714:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,715:      pdf_renderer.py:  470: printSegment: POST
+   DEBUG: 2026-03-02 23:18:25,715:      pdf_renderer.py:  470: printSegment:  | 
+   DEBUG: 2026-03-02 23:18:25,715:      pdf_renderer.py:  470: printSegment: /api/price
+   DEBUG: 2026-03-02 23:18:25,716:      pdf_renderer.py:  470: printSegment:  | Prices an option → 
+   DEBUG: 2026-03-02 23:18:25,716:      pdf_renderer.py:  470: printSegment: {price, delta, status}
+   DEBUG: 2026-03-02 23:18:25,717:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,717:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,717:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,718:      pdf_renderer.py:  470: printSegment: POST
+   DEBUG: 2026-03-02 23:18:25,718:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,718:      pdf_renderer.py:  470: printSegment: 
+   DEBUG: 2026-03-02 23:18:25,719:      pdf_renderer.py:  470: printSegment: /api/upload
+   DEBUG: 2026-03-02 23:18:25,719:      pdf_renderer.py:  470: printSegment:  | Parses uploaded file → 
+   DEBUG: 2026-03-02 23:18:25,720:      pdf_renderer.py:  470: printSegment: {parsed_requests}
+   DEBUG: 2026-03-02 23:18:25,720:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,720:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,721:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,721:      pdf_renderer.py:  470: printSegment: GET
+   DEBUG: 2026-03-02 23:18:25,722:      pdf_renderer.py:  470: printSegment:  | 
+   DEBUG: 2026-03-02 23:18:25,722:      pdf_renderer.py:  470: printSegment: /api/emails
+   DEBUG: 2026-03-02 23:18:25,723:      pdf_renderer.py:  470: printSegment:  | Returns mock inbox
+   DEBUG: 2026-03-02 23:18:25,723:      pdf_renderer.py:  470: printSegment: emails |
+   DEBUG: 2026-03-02 23:18:25,723:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,724:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,724:      pdf_renderer.py:  470: printSegment: POST
+   DEBUG: 2026-03-02 23:18:25,724:      pdf_renderer.py:  470: printSegment:  | 
+   DEBUG: 2026-03-02 23:18:25,725:      pdf_renderer.py:  470: printSegment: /api/book
+   DEBUG: 2026-03-02 23:18:25,725:      pdf_renderer.py:  470: printSegment:  | Books a priced option |
+   DEBUG: 2026-03-02 23:18:25,726:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,726:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,726:      pdf_renderer.py:  470: printSegment: GET
+   DEBUG: 2026-03-02 23:18:25,727:      pdf_renderer.py:  470: printSegment:  | 
+   DEBUG: 2026-03-02 23:18:25,727:      pdf_renderer.py:  470: printSegment: /frontend/*
+   DEBUG: 2026-03-02 23:18:25,728:      pdf_renderer.py:  470: printSegment:  | Static file serving for the frontend |
+   DEBUG: 2026-03-02 23:18:25,728:      pdf_renderer.py:  470: printSegment: PricingRequest Schema
+   DEBUG: 2026-03-02 23:18:25,729:      pdf_renderer.py:  470: printSegment: {
+   DEBUG: 2026-03-02 23:18:25,729:      pdf_renderer.py:  470: printSegment:     "ticker": str,
+   DEBUG: 2026-03-02 23:18:25,730:      pdf_renderer.py:  470: printSegment:     "option_type": "call" | "put",
+   DEBUG: 2026-03-02 23:18:25,730:      pdf_renderer.py:  470: printSegment:     "strike": float,
+   DEBUG: 2026-03-02 23:18:25,731:      pdf_renderer.py:  470: printSegment:     "time_to_maturity": float,          # in years
+   DEBUG: 2026-03-02 23:18:25,732:      pdf_renderer.py:  470: printSegment:     "strike_type": "AbsStrike" | "RelativeStrike",  # optional,
+   DEBUG: 2026-03-02 23:18:25,732:      pdf_renderer.py:  470: printSegment: default AbsStrike
+   DEBUG: 2026-03-02 23:18:25,733:      pdf_renderer.py:  470: printSegment:     "ref_spot": float | None,           # for relative strike
+   DEBUG: 2026-03-02 23:18:25,734:      pdf_renderer.py:  470: printSegment: resolution
+   DEBUG: 2026-03-02 23:18:25,734:      pdf_renderer.py:  470: printSegment:     "spot_override": float | None,
+   DEBUG: 2026-03-02 23:18:25,735:      pdf_renderer.py:  470: printSegment:     "rate_override": float | None,
+   DEBUG: 2026-03-02 23:18:25,735:      pdf_renderer.py:  470: printSegment:     "vol_override": float | None,
+   DEBUG: 2026-03-02 23:18:25,736:      pdf_renderer.py:  470: printSegment:     "div_override": float | None,
+   DEBUG: 2026-03-02 23:18:25,736:      pdf_renderer.py:  470: printSegment:     "borrow_override": float | None
+   DEBUG: 2026-03-02 23:18:25,737:      pdf_renderer.py:  470: printSegment: }
+   DEBUG: 2026-03-02 23:18:25,737:      pdf_renderer.py:  470: printSegment: Price Response
+   DEBUG: 2026-03-02 23:18:25,738:      pdf_renderer.py:  470: printSegment: { "price": 14.9237, "delta": 61.7, "status": "success" }
+   DEBUG: 2026-03-02 23:18:25,739:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:25,739:      pdf_renderer.py:  470: printSegment: delta
+   DEBUG: 2026-03-02 23:18:25,740:      pdf_renderer.py:  470: printSegment:  is returned as a 
+   DEBUG: 2026-03-02 23:18:25,740:      pdf_renderer.py:  470: printSegment: percentage
+   DEBUG: 2026-03-02 23:18:25,741:      pdf_renderer.py:  470: printSegment:  (e.g. 61.7 = 61.7%)
+   DEBUG: 2026-03-02 23:18:25,741:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:25,741:      pdf_renderer.py:  470: printSegment: For 
+   DEBUG: 2026-03-02 23:18:25,742:      pdf_renderer.py:  470: printSegment: RelativeStrike
+   DEBUG: 2026-03-02 23:18:25,742:      pdf_renderer.py:  470: printSegment: , price is displayed as 
+   DEBUG: 2026-03-02 23:18:25,742:      pdf_renderer.py:  470: printSegment: price / RefSpot × 100
+   DEBUG: 2026-03-02 23:18:25,743:      pdf_renderer.py:  470: printSegment:  → percentage
+   DEBUG: 2026-03-02 23:18:25,743:      pdf_renderer.py:  470: printSegment: Frontend Pricing Grid Columns
+   DEBUG: 2026-03-02 23:18:25,744:      pdf_renderer.py:  470: printSegment: | Column | Type | Notes |
+   DEBUG: 2026-03-02 23:18:25,744:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,745:      pdf_renderer.py:  470: printSegment: |--------|------|-------|
+   DEBUG: 2026-03-02 23:18:25,745:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,746:      pdf_renderer.py:  470: printSegment: | ☑ | Checkbox | Enabled after pricing, for selective booking |
+   DEBUG: 2026-03-02 23:18:25,754:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,754:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,754:      pdf_renderer.py:  470: printSegment: Ticker
+   DEBUG: 2026-03-02 23:18:25,755:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,756:      pdf_renderer.py:  470: printSegment: Text input | On blur → fetches 
+   DEBUG: 2026-03-02 23:18:25,756:      pdf_renderer.py:  470: printSegment: /api/defaults/{ticker}
+   DEBUG: 2026-03-02 23:18:25,756:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,757:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,757:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,757:      pdf_renderer.py:  470: printSegment: Type
+   DEBUG: 2026-03-02 23:18:25,758:      pdf_renderer.py:  470: printSegment:  | Dropdown | Call / Put |
+   DEBUG: 2026-03-02 23:18:25,758:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,758:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,759:      pdf_renderer.py:  470: printSegment: StrikeType
+   DEBUG: 2026-03-02 23:18:25,760:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,760:      pdf_renderer.py:  470: printSegment: Dropdown | Abs / Rel% — toggles strike format |
+   DEBUG: 2026-03-02 23:18:25,760:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,761:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,761:      pdf_renderer.py:  470: printSegment: Strike
+   DEBUG: 2026-03-02 23:18:25,762:      pdf_renderer.py:  470: printSegment:  | Number input | Shows 
+   DEBUG: 2026-03-02 23:18:25,762:      pdf_renderer.py:  470: printSegment: %
+   DEBUG: 2026-03-02 23:18:25,762:      pdf_renderer.py:  470: printSegment:  suffix in Rel% mode via CSS 
+   DEBUG: 2026-03-02 23:18:25,763:      pdf_renderer.py:  470: printSegment: ::after
+   DEBUG: 2026-03-02 23:18:25,763:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,763:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,764:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,764:      pdf_renderer.py:  470: printSegment: Maturity
+   DEBUG: 2026-03-02 23:18:25,764:      pdf_renderer.py:  470: printSegment:  | Flatpickr | YYYY-MM-DD format, dark-themed calendar |
+   DEBUG: 2026-03-02 23:18:25,765:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,765:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,765:      pdf_renderer.py:  470: printSegment: Return
+   DEBUG: 2026-03-02 23:18:25,766:      pdf_renderer.py:  470: printSegment:  | Display-only | 
+   DEBUG: 2026-03-02 23:18:25,766:      pdf_renderer.py:  470: printSegment: "
+   DEBUG: 2026-03-02 23:18:25,767:      pdf_renderer.py:  470: printSegment: Total
+   DEBUG: 2026-03-02 23:18:25,767:      pdf_renderer.py:  470: printSegment: "
+   DEBUG: 2026-03-02 23:18:25,767:      pdf_renderer.py:  470: printSegment:  or 
+   DEBUG: 2026-03-02 23:18:25,767:      pdf_renderer.py:  470: printSegment: "
+   DEBUG: 2026-03-02 23:18:25,768:      pdf_renderer.py:  470: printSegment: Excess
+   DEBUG: 2026-03-02 23:18:25,768:      pdf_renderer.py:  470: printSegment: "
+   DEBUG: 2026-03-02 23:18:25,769:      pdf_renderer.py:  470: printSegment:  — auto from ticker |
+   DEBUG: 2026-03-02 23:18:25,769:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,769:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,770:      pdf_renderer.py:  470: printSegment: RefSpot
+   DEBUG: 2026-03-02 23:18:25,770:      pdf_renderer.py:  470: printSegment:  | Number input | Placeholder auto-populated from defaults |
+   DEBUG: 2026-03-02 23:18:25,770:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,771:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,771:      pdf_renderer.py:  470: printSegment: Rate
+   DEBUG: 2026-03-02 23:18:25,772:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,773:      pdf_renderer.py:  470: printSegment: Number input | Placeholder auto-populated from defaults |
+   DEBUG: 2026-03-02 23:18:25,773:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,774:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,774:      pdf_renderer.py:  470: printSegment: Vol
+   DEBUG: 2026-03-02 23:18:25,775:      pdf_renderer.py:  470: printSegment:  | Number input | Placeholder auto-populated from
+   DEBUG: 2026-03-02 23:18:25,775:      pdf_renderer.py:  470: printSegment: defaults |
+   DEBUG: 2026-03-02 23:18:25,775:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,776:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,776:      pdf_renderer.py:  470: printSegment: Div
+   DEBUG: 2026-03-02 23:18:25,777:      pdf_renderer.py:  470: printSegment:  | Number input | Placeholder auto-populated from defaults |
+   DEBUG: 2026-03-02 23:18:25,777:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,777:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,778:      pdf_renderer.py:  470: printSegment: Borrow
+   DEBUG: 2026-03-02 23:18:25,779:      pdf_renderer.py:  470: printSegment:  | Number input | Placeholder
+   DEBUG: 2026-03-02 23:18:25,779:      pdf_renderer.py:  470: printSegment: auto-populated from defaults |
+   DEBUG: 2026-03-02 23:18:25,780:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,780:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,780:      pdf_renderer.py:  470: printSegment: Counterparty
+   DEBUG: 2026-03-02 23:18:25,781:      pdf_renderer.py:  470: printSegment:  | Dropdown | 14 predefined clients |
+   DEBUG: 2026-03-02 23:18:25,781:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,782:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,782:      pdf_renderer.py:  470: printSegment: ExecMethod
+   DEBUG: 2026-03-02 23:18:25,783:      pdf_renderer.py:  470: printSegment:  | Dropdown |
+   DEBUG: 2026-03-02 23:18:25,783:      pdf_renderer.py:  470: printSegment: DeltaAdj / Reprice |
+   DEBUG: 2026-03-02 23:18:25,783:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,784:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,784:      pdf_renderer.py:  470: printSegment: Price
+   DEBUG: 2026-03-02 23:18:25,785:      pdf_renderer.py:  470: printSegment:  | Display-only | 
+   DEBUG: 2026-03-02 23:18:25,785:      pdf_renderer.py:  470: printSegment: $XX.XX
+   DEBUG: 2026-03-02 23:18:25,785:      pdf_renderer.py:  470: printSegment:  (Abs) or 
+   DEBUG: 2026-03-02 23:18:25,786:      pdf_renderer.py:  470: printSegment: X.XX%
+   DEBUG: 2026-03-02 23:18:25,786:      pdf_renderer.py:  470: printSegment:  (Rel%) |
+   DEBUG: 2026-03-02 23:18:25,787:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,787:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,788:      pdf_renderer.py:  470: printSegment: Delta
+   DEBUG: 2026-03-02 23:18:25,788:      pdf_renderer.py:  470: printSegment:  | Display-only | 
+   DEBUG: 2026-03-02 23:18:25,789:      pdf_renderer.py:  470: printSegment: XX.X%
+   DEBUG: 2026-03-02 23:18:25,789:      pdf_renderer.py:  470: printSegment:  |
+   DEBUG: 2026-03-02 23:18:25,789:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:25,790:      pdf_renderer.py:  470: printSegment: | 
+   DEBUG: 2026-03-02 23:18:25,790:      pdf_renderer.py:  470: printSegment: Actions
+   DEBUG: 2026-03-02 23:18:25,791:      pdf_renderer.py:  470: printSegment:  | Button | Remove row |
+   DEBUG: 2026-03-02 23:18:25,791:      pdf_renderer.py:  470: printSegment: Global Override Row (🌎)
+   DEBUG: 2026-03-02 23:18:25,882:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:25,883:      pdf_renderer.py:  470: printSegment: Focus states with colored glow halos
+   DEBUG: 2026-03-02 23:18:25,884:      pdf_renderer.py:  470: printSegment: Global Override Row (🌎)
+   DEBUG: 2026-03-02 23:18:25,884:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:25,885:      pdf_renderer.py:  470: printSegment: Top row with inputs for all overrideable columns
+   DEBUG: 2026-03-02 23:18:25,885:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:25,886:      pdf_renderer.py:  470: printSegment: ⚡ 
+   DEBUG: 2026-03-02 23:18:25,894:      pdf_renderer.py:  470: printSegment: Apply
+   DEBUG: 2026-03-02 23:18:25,894:      pdf_renderer.py:  470: printSegment:  button pushes values to all data rows
+   DEBUG: 2026-03-02 23:18:25,895:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:25,895:      pdf_renderer.py:  470: printSegment: Uses Flatpickr 
+   DEBUG: 2026-03-02 23:18:25,896:      pdf_renderer.py:  470: printSegment: .setDate()
+   DEBUG: 2026-03-02 23:18:25,896:      pdf_renderer.py:  470: printSegment:  API for maturity
+   DEBUG: 2026-03-02 23:18:25,897:      pdf_renderer.py:  470: printSegment: Key Features
+   DEBUG: 2026-03-02 23:18:25,898:      pdf_renderer.py:  470: printSegment: 1. Default Value Auto-Population
+   DEBUG: 2026-03-02 23:18:25,899:      pdf_renderer.py:  470: printSegment: When a ticker is entered and blurred, the frontend calls 
+   DEBUG: 2026-03-02 23:18:25,899:      pdf_renderer.py:  470: printSegment: /api/defaults/{ticker}
+   DEBUG: 2026-03-02 23:18:25,900:      pdf_renderer.py:  470: printSegment:  and populates all optional
+   DEBUG: 2026-03-02 23:18:25,900:      pdf_renderer.py:  470: printSegment: field 
+   DEBUG: 2026-03-02 23:18:25,901:      pdf_renderer.py:  470: printSegment: placeholders
+   DEBUG: 2026-03-02 23:18:25,901:      pdf_renderer.py:  470: printSegment:  with actual default values (not just 
+   DEBUG: 2026-03-02 23:18:25,902:      pdf_renderer.py:  470: printSegment: "
+   DEBUG: 2026-03-02 23:18:25,902:      pdf_renderer.py:  470: printSegment: —
+   DEBUG: 2026-03-02 23:18:25,903:      pdf_renderer.py:  470: printSegment: "
+   DEBUG: 2026-03-02 23:18:25,903:      pdf_renderer.py:  470: printSegment: ).
+   DEBUG: 2026-03-02 23:18:25,903:      pdf_renderer.py:  470: printSegment: 2. Flatpickr Date Picker
+   DEBUG: 2026-03-02 23:18:25,904:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:25,905:      pdf_renderer.py:  470: printSegment: External library via CDN — dark-themed CSS overrides
+   DEBUG: 2026-03-02 23:18:25,905:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:25,906:      pdf_renderer.py:  470: printSegment: YYYY-MM-DD format, fade-in animation, gradient-selected day
+   DEBUG: 2026-03-02 23:18:25,906:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:25,907:      pdf_renderer.py:  470: printSegment: color-scheme: dark
+   DEBUG: 2026-03-02 23:18:25,907:      pdf_renderer.py:  470: printSegment:  for native OS integration
+   DEBUG: 2026-03-02 23:18:25,908:      pdf_renderer.py:  470: printSegment: 3. File Upload Parser
+   DEBUG: 2026-03-02 23:18:25,908:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:25,909:      pdf_renderer.py:  470: printSegment: Supports 
+   DEBUG: 2026-03-02 23:18:25,909:      pdf_renderer.py:  470: printSegment: .xlsx
+   DEBUG: 2026-03-02 23:18:25,910:      pdf_renderer.py:  470: printSegment: , 
+   DEBUG: 2026-03-02 23:18:25,910:      pdf_renderer.py:  470: printSegment: .csv
+   DEBUG: 2026-03-02 23:18:25,910:      pdf_renderer.py:  470: printSegment: , 
+   DEBUG: 2026-03-02 23:18:25,911:      pdf_renderer.py:  470: printSegment: .txt
+   DEBUG: 2026-03-02 23:18:25,911:      pdf_renderer.py:  470: printSegment:  (tab-separated)
+   DEBUG: 2026-03-02 23:18:25,912:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:25,912:      pdf_renderer.py:  470: printSegment: Fuzzy column matching
+   DEBUG: 2026-03-02 23:18:25,913:      pdf_renderer.py:  470: printSegment:  — detects variants like 
+   DEBUG: 2026-03-02 23:18:25,913:      pdf_renderer.py:  470: printSegment: ticker
+   DEBUG: 2026-03-02 23:18:25,914:      pdf_renderer.py:  470: printSegment: /
+   DEBUG: 2026-03-02 23:18:25,914:      pdf_renderer.py:  470: printSegment: symbol
+   DEBUG: 2026-03-02 23:18:25,915:      pdf_renderer.py:  470: printSegment: , 
+   DEBUG: 2026-03-02 23:18:25,915:      pdf_renderer.py:  470: printSegment: strike_type
+   DEBUG: 2026-03-02 23:18:25,916:      pdf_renderer.py:  470: printSegment: /
+   DEBUG: 2026-03-02 23:18:25,916:      pdf_renderer.py:  470: printSegment: striketype
+   DEBUG: 2026-03-02 23:18:25,917:      pdf_renderer.py:  470: printSegment: , 
+   DEBUG: 2026-03-02 23:18:25,917:      pdf_renderer.py:  470: printSegment: cpty
+   DEBUG: 2026-03-02 23:18:25,917:      pdf_renderer.py:  470: printSegment: /
+   DEBUG: 2026-03-02 23:18:25,918:      pdf_renderer.py:  470: printSegment: counterparty
+   DEBUG: 2026-03-02 23:18:25,918:      pdf_renderer.py:  470: printSegment: /
+   DEBUG: 2026-03-02 23:18:25,919:      pdf_renderer.py:  470: printSegment: client
+   DEBUG: 2026-03-02 23:18:25,919:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:25,920:      pdf_renderer.py:  470: printSegment: All new columns are optional — only Ticker, Type, Strike, Maturity are required
+   DEBUG: 2026-03-02 23:18:25,921:      pdf_renderer.py:  470: printSegment: 4. Live Email Inbox
+   DEBUG: 2026-03-02 23:18:25,921:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:25,922:      pdf_renderer.py:  470: printSegment: Mock emails with 
+   DEBUG: 2026-03-02 23:18:25,922:      pdf_renderer.py:  470: printSegment: maturity_date
+   DEBUG: 2026-03-02 23:18:25,923:      pdf_renderer.py:  470: printSegment:  (YYYY-MM-DD), 
+   DEBUG: 2026-03-02 23:18:25,923:      pdf_renderer.py:  470: printSegment: strike_type
+   DEBUG: 2026-03-02 23:18:25,923:      pdf_renderer.py:  470: printSegment: , 
+   DEBUG: 2026-03-02 23:18:25,924:      pdf_renderer.py:  470: printSegment: counterparty
+   DEBUG: 2026-03-02 23:18:25,924:      pdf_renderer.py:  470: printSegment: , 
+   DEBUG: 2026-03-02 23:18:25,924:      pdf_renderer.py:  470: printSegment: exec_method
+   DEBUG: 2026-03-02 23:18:25,924:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:25,925:      pdf_renderer.py:  470: printSegment: Click an email card → populates a new grid row with all fields
+   DEBUG: 2026-03-02 23:18:25,925:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:25,926:      pdf_renderer.py:  470: printSegment: Badges display ticker, type, strike (with % for relative), date, counterparty, exec method
+   DEBUG: 2026-03-02 23:18:25,926:      pdf_renderer.py:  470: printSegment: 5. Copy to Excel
+   DEBUG: 2026-03-02 23:18:25,926:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:25,927:      pdf_renderer.py:  470: printSegment: 📋 button builds TSV (tab-separated) with all columns including headers
+   DEBUG: 2026-03-02 23:18:26,029:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:26,029:      pdf_renderer.py:  470: printSegment: Uses 
+   DEBUG: 2026-03-02 23:18:26,030:      pdf_renderer.py:  470: printSegment: navigator.clipboard.writeText()
+   DEBUG: 2026-03-02 23:18:26,030:      pdf_renderer.py:  470: printSegment:  — shows ✅ feedback
+   DEBUG: 2026-03-02 23:18:26,031:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:26,031:      pdf_renderer.py:  470: printSegment: All 15 columns included in export
+   DEBUG: 2026-03-02 23:18:26,032:      pdf_renderer.py:  470: printSegment: 6. Select Dropdown Fix
+   DEBUG: 2026-03-02 23:18:26,032:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:26,032:      pdf_renderer.py:  470: printSegment: color-scheme: dark
+   DEBUG: 2026-03-02 23:18:26,033:      pdf_renderer.py:  470: printSegment:  on 
+   DEBUG: 2026-03-02 23:18:26,033:      pdf_renderer.py:  470: printSegment: <select>
+   DEBUG: 2026-03-02 23:18:26,033:      pdf_renderer.py:  470: printSegment:  for native dark dropdown
+   DEBUG: 2026-03-02 23:18:26,034:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:26,034:      pdf_renderer.py:  470: printSegment: Explicit 
+   DEBUG: 2026-03-02 23:18:26,034:      pdf_renderer.py:  470: printSegment: select option
+   DEBUG: 2026-03-02 23:18:26,035:      pdf_renderer.py:  470: printSegment:  background/color for browser compatibility
+   DEBUG: 2026-03-02 23:18:26,036:      pdf_renderer.py:  470: printSegment: Design System
+   DEBUG: 2026-03-02 23:18:26,036:      pdf_renderer.py:  470: printSegment: CSS Variables
+   DEBUG: 2026-03-02 23:18:26,037:      pdf_renderer.py:  470: printSegment: --bg-deep: #0a0a1a          --primary: #6366f1
+   DEBUG: 2026-03-02 23:18:26,037:      pdf_renderer.py:  470: printSegment: --bg-card: #0f0f23           --accent: #22d3ee
+   DEBUG: 2026-03-02 23:18:26,038:      pdf_renderer.py:  470: printSegment: --glass-border: rgba(255,255,255,0.06)
+   DEBUG: 2026-03-02 23:18:26,038:      pdf_renderer.py:  470: printSegment: --text-main: #e2e8f0         --text-muted: #64748b
+   DEBUG: 2026-03-02 23:18:26,039:      pdf_renderer.py:  470: printSegment: Visual Features
+   DEBUG: 2026-03-02 23:18:26,039:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:26,039:      pdf_renderer.py:  470: printSegment: Glassmorphism cards with 
+   DEBUG: 2026-03-02 23:18:26,040:      pdf_renderer.py:  470: printSegment: backdrop-filter: blur()
+   DEBUG: 2026-03-02 23:18:26,040:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:26,040:      pdf_renderer.py:  470: printSegment: Animated background mesh gradient
+   DEBUG: 2026-03-02 23:18:26,041:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:26,041:      pdf_renderer.py:  470: printSegment: Logo pulse animation
+   DEBUG: 2026-03-02 23:18:26,042:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:26,042:      pdf_renderer.py:  470: printSegment: Hover glow effects on inputs/buttons
+   DEBUG: 2026-03-02 23:18:26,042:      pdf_renderer.py:  470: printSegment: l
+   DEBUG: 2026-03-02 23:18:26,043:      pdf_renderer.py:  470: printSegment: Smooth 
+   DEBUG: 2026-03-02 23:18:26,043:      pdf_renderer.py:  470: printSegment: fadeSlideUp
+   DEBUG: 2026-03-02 23:18:26,043:      pdf_renderer.py:  470: printSegment:  entry animations
+   DEBUG: 2026-03-02 23:18:26,044:      pdf_renderer.py:  470: printSegment: Running the Application
+   DEBUG: 2026-03-02 23:18:26,045:      pdf_renderer.py:  470: printSegment: # Start backend (from option_pricer/ root)
+   DEBUG: 2026-03-02 23:18:26,046:      pdf_renderer.py:  470: printSegment: conda run --no-capture-output -n optionPricer python -m uvicorn
+   DEBUG: 2026-03-02 23:18:26,046:      pdf_renderer.py:  470: printSegment: backend.main:app --reload
+   DEBUG: 2026-03-02 23:18:26,047:      pdf_renderer.py:  470: printSegment: # Access frontend via HTTP
+   DEBUG: 2026-03-02 23:18:26,047:      pdf_renderer.py:  470: printSegment: http://127.0.0.1:8000/frontend/index.html
+   DEBUG: 2026-03-02 23:18:26,047:      pdf_renderer.py:  470: printSegment: [
+   DEBUG: 2026-03-02 23:18:26,048:      pdf_renderer.py:  470: printSegment: !
+   DEBUG: 2026-03-02 23:18:26,048:      pdf_renderer.py:  470: printSegment: IMPORTANT
+   DEBUG: 2026-03-02 23:18:26,048:      pdf_renderer.py:  470: printSegment: ]
+   DEBUG: 2026-03-02 23:18:26,049:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:26,049:      pdf_renderer.py:  470: printSegment: The frontend must be accessed via HTTP (not 
+   DEBUG: 2026-03-02 23:18:26,050:      pdf_renderer.py:  470: printSegment: file:///
+   DEBUG: 2026-03-02 23:18:26,052:      pdf_renderer.py:  470: printSegment: ) because of CORS and
+   DEBUG: 2026-03-02 23:18:26,052:      pdf_renderer.py:  470: printSegment: Flatpickr CDN requirements. The backend serves static files from 
+   DEBUG: 2026-03-02 23:18:26,053:      pdf_renderer.py:  470: printSegment: /frontend/
+   DEBUG: 2026-03-02 23:18:26,053:      pdf_renderer.py:  470: printSegment: .
+   DEBUG: 2026-03-02 23:18:26,054:      pdf_renderer.py:  470: printSegment: Counterparty List
+   DEBUG: 2026-03-02 23:18:26,057:      pdf_renderer.py:  470: printSegment: Goldman Sachs, Morgan Stanley, JP Morgan, Citi, Barclays, BofA Securities, UBS, Credit Suisse, Deutsche Bank,
+   DEBUG: 2026-03-02 23:18:26,058:      pdf_renderer.py:  470: printSegment: HSBC, BNP Paribas, Societe Generale, Nomura, Internal
+   DEBUG: 2026-03-02 23:18:26,058:      pdf_renderer.py:  470: printSegment: Mock Market Data
+   DEBUG: 2026-03-02 23:18:26,059:      pdf_renderer.py:  470: printSegment: | Ticker | Spot | Rate | Vol | Div | Borrow | Return Type |
+   DEBUG: 2026-03-02 23:18:26,059:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:26,060:      pdf_renderer.py:  470: printSegment: |--------|------|------|-----|-----|--------|-------------|
+   DEBUG: 2026-03-02 23:18:26,060:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:26,061:      pdf_renderer.py:  470: printSegment: | AAPL |
+   DEBUG: 2026-03-02 23:18:26,062:      pdf_renderer.py:  470: printSegment: 150 | 0.05 | 0.20 | 0.006 | 0.002 | TotalReturn |
+   DEBUG: 2026-03-02 23:18:26,062:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:26,062:      pdf_renderer.py:  470: printSegment: | TSLA | 200 | 0.05 | 0.50 | 0.0 | 0.005 | TotalReturn |
+   DEBUG: 2026-03-02 23:18:26,063:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:26,064:      pdf_renderer.py:  470: printSegment: | SPX | 5000 |
+   DEBUG: 2026-03-02 23:18:26,064:      pdf_renderer.py:  470: printSegment: 0.05 | 0.15 | 0.018 | 0.0 | ExcessReturn |
+   DEBUG: 2026-03-02 23:18:26,064:      pdf_renderer.py:  470: printSegment:  
+   DEBUG: 2026-03-02 23:18:26,065:      pdf_renderer.py:  470: printSegment: | NDX | 17000 | 0.05 | 0.20 | 0.008 | 0.0 | ExcessReturn |
+   DEBUG: 2026-03-02 23:18:26,065:      pdf_renderer.py:   53: 0, [1, 'Maltese — Full Implementation Reference', 1, 68.0]
+   DEBUG: 2026-03-02 23:18:26,065:      pdf_renderer.py:   53: 1, [2, 'Overview', 1, 106.0]
+   DEBUG: 2026-03-02 23:18:26,065:      pdf_renderer.py:   53: 2, [2, 'Architecture', 1, 181.60000000000002]
+   DEBUG: 2026-03-02 23:18:26,065:      pdf_renderer.py:   53: 3, [3, 'File Structure', 1, 394.8]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 4, [2, 'Pricing Engine', 1, 688.0]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 5, [3, 'Generalized Black-Scholes with Cost-of-Carry', 2, 72.0]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 6, [3, 'Cost-of-Carry (', 2, 178.8]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 7, [3, 'Return Type Map', 2, 237.60000000000002]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 8, [3, 'Strike Types', 2, 296.4]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 9, [2, 'API Endpoints', 2, 367.59999999999997]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 10, [3, 'PricingRequest Schema', 2, 472.79999999999995]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 11, [3, 'Price Response', 2, 693.5999999999999]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 12, [2, 'Frontend Pricing Grid Columns', 3, 152.8]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 13, [3, 'Global Override Row (🌎)', 3, 312.0]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 14, [3, 'Global Override Row (🌎)', 3, 364.79999999999995]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 15, [2, 'Key Features', 3, 453.99999999999994]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 16, [3, '1. Default Value Auto-Population', 3, 487.19999999999993]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 17, [3, '2. Flatpickr Date Picker', 3, 545.9999999999999]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 18, [3, '3. File Upload Parser', 3, 622.7999999999998]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 19, [3, '4. Live Email Inbox', 4, 72.0]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 20, [3, '5. Copy to Excel', 4, 160.8]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 21, [3, '6. Select Dropdown Fix', 4, 237.60000000000002]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 22, [2, 'Design System', 4, 314.8]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 23, [3, 'CSS Variables', 4, 348.0]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 24, [3, 'Visual Features', 4, 436.79999999999995]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 25, [2, 'Running the Application', 4, 549.9999999999999]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 26, [2, 'Counterparty List', 4, 703.5999999999998]
+   DEBUG: 2026-03-02 23:18:26,066:      pdf_renderer.py:   53: 27, [2, 'Mock Market Data', 5, 128.8]

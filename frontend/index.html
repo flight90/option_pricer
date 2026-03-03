@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maltese | Option Pricer & Booking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="glass-panel main-header">
+            <div class="logo">
+                <img src="maltese.png" alt="Maltese Logo" class="logo-img">
+                <h1>Maltese</h1>
+            </div>
+            <div class="user-profile">
+                <div class="avatar"></div>
+                <span>DS US</span>
+            </div>
+        </header>
+
+        <main class="dashboard">
+            <!-- Left Column: Inputs -->
+            <div class="input-panel">
+
+                <section class="glass-panel input-section">
+                    <div class="section-header">
+                        <h2>Ad-Hoc Pricing Grid</h2>
+                        <button type="button" id="add-row-btn" class="btn outline-btn btn-sm">+ Add Option</button>
+                    </div>
+
+                    <form id="adhoc-form">
+                        <div class="pricing-grid-container">
+                            <table class="pricing-grid" id="pricing-grid">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 40px;"></th>
+                                        <th>Ticker</th>
+                                        <th>Type</th>
+                                        <th>StrikeType</th>
+                                        <th>Strike</th>
+                                        <th>Maturity</th>
+                                        <th>Return</th>
+                                        <th>RefSpot</th>
+                                        <th>Rate</th>
+                                        <th>Vol</th>
+                                        <th>Div</th>
+                                        <th>Borrow</th>
+                                        <th>Counterparty</th>
+                                        <th>ExecMethod</th>
+                                        <th>Price</th>
+                                        <th>Delta</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    <tr class="global-override-row">
+                                        <td style="text-align: center;" title="Global Overrides"><span
+                                                style="cursor:help;">🌎</span></td>
+                                        <td><input type="text" id="global-ticker" class="cell-global" placeholder="All">
+                                        </td>
+                                        <td>
+                                            <select id="global-type" class="cell-global">
+                                                <option value="">—</option>
+                                                <option value="call">Call</option>
+                                                <option value="put">Put</option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td><input type="number" step="0.01" id="global-strike" class="cell-global"
+                                                placeholder="—"></td>
+                                        <td><input type="text" id="global-maturity" class="cell-global"
+                                                placeholder="YYYY-MM-DD"></td>
+                                        <td></td>
+                                        <td><input type="number" step="0.01" id="global-spot" class="cell-global"
+                                                placeholder="—"></td>
+                                        <td><input type="number" step="0.001" id="global-rate" class="cell-global"
+                                                placeholder="—"></td>
+                                        <td><input type="number" step="0.01" id="global-vol" class="cell-global"
+                                                placeholder="—"></td>
+                                        <td><input type="number" step="0.0001" id="global-div" class="cell-global"
+                                                placeholder="—"></td>
+                                        <td><input type="number" step="0.0001" id="global-borrow" class="cell-global"
+                                                placeholder="—"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td colspan="3">
+                                            <button type="button" id="apply-overrides-btn"
+                                                class="btn outline-btn btn-sm" style="white-space:nowrap;">⚡
+                                                Apply</button>
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody id="grid-body">
+                                    <!-- Rows injected by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="grid-actions">
+                            <button type="submit" class="btn primary-btn pulse-hover">Calculate All Prices</button>
+                            <button type="button" id="copy-grid-btn" class="btn outline-btn" style="width:auto;">📋 Copy
+                                to Excel</button>
+                            <button type="button" id="book-selected-btn" class="btn accent-btn hidden"
+                                style="width: auto;">Book Selected</button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- File Upload Section -->
+                <section class="glass-panel input-section">
+                    <h2>Batch Pricing (Upload)</h2>
+                    <div class="file-upload-zone" id="drop-zone">
+                        <div class="upload-icon">📁</div>
+                        <p>Drag & drop Excel, CSV, or TXT requests here</p>
+                        <input type="file" id="file-input" accept=".csv, .xlsx, .xls, .txt" hidden>
+                        <button type="button" class="btn outline-btn"
+                            onclick="document.getElementById('file-input').click()">Browse Files</button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: Outputs and Integrations -->
+            <div class="output-panel">
+
+                <!-- General Booking Widget (Moved from individual view) -->
+                <section class="glass-panel results-section" id="results-panel" style="display: none;">
+                    <h2>Booking Status</h2>
+                    <div class="result-details" id="result-context">
+                        <!-- Filled by JS -->
+                    </div>
+                    <div id="booking-status" class="booking-status hidden"></div>
+                </section>
+
+                <!-- Live Email Inbox -->
+                <section class="glass-panel email-inbox-section">
+                    <div class="section-header">
+                        <h2>Live Request Inbox</h2>
+                        <button id="refresh-emails" class="icon-btn" title="Refresh Inbox">🔄</button>
+                    </div>
+                    <div class="inbox-list" id="inbox-list">
+                        <div class="loading-spinner"></div>
+                        <p class="muted-text text-center">Checking for new pricing requests...</p>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <p>&copy; 2026 Maltese Option Pricer. End of Page.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
