@@ -44,6 +44,8 @@
                                         <th style="width: 40px;"></th>
                                         <th>Ticker</th>
                                         <th>Type</th>
+                                        <th>Quantity</th>
+                                        <th>QtyType</th>
                                         <th>StrikeType</th>
                                         <th>Strike</th>
                                         <th>Maturity</th>
@@ -57,6 +59,10 @@
                                         <th>ExecMethod</th>
                                         <th>Price</th>
                                         <th>Delta</th>
+                                        <th>ExecSpot</th>
+                                        <th>Final Strike</th>
+                                        <th>Final Price</th>
+                                        <th>Final Qty</th>
                                         <th>Actions</th>
                                     </tr>
                                     <tr class="global-override-row">
@@ -69,6 +75,15 @@
                                                 <option value="">—</option>
                                                 <option value="call">Call</option>
                                                 <option value="put">Put</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="number" step="1" id="global-quantity" class="cell-global"
+                                                placeholder="—"></td>
+                                        <td>
+                                            <select id="global-quantity-type" class="cell-global">
+                                                <option value="">—</option>
+                                                <option value="Notional">Notional</option>
+                                                <option value="Unit">Unit</option>
                                             </select>
                                         </td>
                                         <td></td>
@@ -87,6 +102,13 @@
                                                 placeholder="—"></td>
                                         <td><input type="number" step="0.0001" id="global-borrow" class="cell-global"
                                                 placeholder="—"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><input type="number" step="0.01" id="global-exec-spot" class="cell-global"
+                                                placeholder="—"></td>
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td colspan="3">

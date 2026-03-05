@@ -32,6 +32,9 @@ class PricingRequest(BaseModel):
     time_to_maturity: float # in years
     strike_type: Optional[Literal["AbsStrike", "RelativeStrike"]] = "AbsStrike"
     ref_spot: Optional[float] = None  # needed for RelativeStrike resolution
+    quantity: Optional[float] = 1.0
+    quantity_type: Optional[Literal["Notional", "Unit"]] = "Notional"
+    exec_spot: Optional[float] = None
     # Optional ad-hoc parameters to override defaults
     spot_override: Optional[float] = None
     rate_override: Optional[float] = None

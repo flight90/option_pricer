@@ -94,7 +94,7 @@ body::after {
 
 /* ── App Container ── */
 .app-container {
-    max-width: 1400px;
+    max-width: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -229,7 +229,7 @@ h1 {
 /* ── Dashboard Layout ── */
 .dashboard {
     display: grid;
-    grid-template-columns: 1.3fr 0.7fr;
+    grid-template-columns: 3fr 1fr;
     gap: 1.5rem;
 }
 
@@ -340,7 +340,7 @@ select:focus {
 .pricing-grid {
     width: 100%;
     border-collapse: collapse;
-    min-width: 1200px;
+    min-width: 1400px;
     table-layout: auto;
 }
 
@@ -396,9 +396,9 @@ select:focus {
 .pricing-grid input,
 .pricing-grid select {
     width: 100%;
-    min-width: 60px;
-    padding: 0.45rem 0.5rem;
-    font-size: 0.85rem;
+    min-width: 50px;
+    padding: 0.35rem 0.4rem;
+    font-size: 0.8rem;
     border: 1px solid transparent;
     background: rgba(255, 255, 255, 0.03);
     border-radius: 6px;
@@ -406,26 +406,26 @@ select:focus {
 }
 
 .pricing-grid select.cell-type {
-    min-width: 90px;
+    min-width: 70px;
 }
 
 .pricing-grid .cell-exec-method {
-    min-width: 105px;
+    min-width: 90px;
 }
 
 /* Flatpickr generates an alt-input right after the real input */
 .pricing-grid input.flatpickr-input,
 .pricing-grid input.cell-ttm+input {
-    min-width: 120px;
+    min-width: 100px;
 }
 
 .pricing-grid input.cell-ticker {
-    min-width: 90px;
+    min-width: 70px;
     font-family: var(--mono);
 }
 
 .pricing-grid input.cell-strike {
-    min-width: 100px;
+    min-width: 80px;
     font-family: var(--mono);
 }
 
@@ -458,7 +458,7 @@ select:focus {
 .pricing-grid input.cell-spot,
 .pricing-grid input.cell-rate,
 .pricing-grid input.cell-vol {
-    min-width: 85px;
+    min-width: 65px;
 }
 
 .pricing-grid input:focus,

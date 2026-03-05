@@ -79,6 +79,16 @@ function createGridRow(data = {}) {
     const tDiv = data.div_override || defDiv || '';
     const tBorrow = data.borrow_override || defBorrow || '';
     const tStrikeType = data.strike_type || 'AbsStrike';
+
+    // New Fields
+    const defQuantity = document.getElementById('global-quantity').value;
+    const defQuantityType = document.getElementById('global-quantity-type').value;
+    const defExecSpot = document.getElementById('global-exec-spot').value;
+
+    const tQuantity = data.quantity || defQuantity || '1';
+    const tQuantityType = data.quantity_type || defQuantityType || 'Notional';
+    const tExecSpot = data.exec_spot || defExecSpot || '';
+
     const tCounterparty = data.counterparty || '';
     const tExecMethod = data.exec_method || 'DeltaAdj';
 
@@ -92,6 +102,13 @@ function createGridRow(data = {}) {
             <select class="cell-type" required>
                 <option value="call" ${tType === 'call' ? 'selected' : ''}>Call</option>
                 <option value="put" ${tType === 'put' ? 'selected' : ''}>Put</option>
+            </select>
+        </td>
+        <td><input type="number" step="1" class="cell-quantity" placeholder="1" value="${tQuantity}" required></td>
+        <td>
+            <select class="cell-quantity-type">
+                <option value="Notional" ${tQuantityType === 'Notional' ? 'selected' : ''}>Not</option>
+                <option value="Unit" ${tQuantityType === 'Unit' ? 'selected' : ''}>Unit</option>
             </select>
         </td>
         <td>
@@ -117,11 +134,18 @@ function createGridRow(data = {}) {
         <td>
             <select class="cell-exec-method">
                 <option value="DeltaAdj" ${tExecMethod === 'DeltaAdj' ? 'selected' : ''}>DeltaAdj</option>
-                <option value="Reprice" ${tExecMethod === 'Reprice' ? 'selected' : ''}>Reprice</option>
+                <option value="Re-Ref" ${tExecMethod === 'Re-Ref' ? 'selected' : ''}>Re-Ref</option>
             </select>
         </td>
         <td class="price-cell" id="price-${rowId}">-</td>
         <td class="delta-cell" id="delta-${rowId}">-</td>
+        <td style="display: flex; gap: 4px; align-items: center;">
+            <input type="number" step="0.01" class="cell-exec-spot" placeholder="—" value="${tExecSpot}" style="width: 70px;">
+            <button type="button" class="btn outline-btn btn-sm get-spot-btn" style="padding: 2px 6px; font-size: 0.7rem;">Get</button>
+        </td>
+        <td class="final-strike-cell" id="final-strike-${rowId}" style="text-align:right;">-</td>
+        <td class="final-price-cell" id="final-price-${rowId}" style="text-align:right;">-</td>
+        <td class="final-qty-cell" id="final-qty-${rowId}" style="text-align:right;">-</td>
         <td><button type="button" class="remove-row-btn" data-id="${rowId}">X</button></td>
     `;
 
@@ -138,20 +162,39 @@ function createGridRow(data = {}) {
         updateBookButtonState();
     });
 
-    // StrikeType change handler - update placeholder
+    // Column Grouping Synchronization
     const strikeTypeSelect = tr.querySelector('.cell-strike-type');
     const strikeInput = tr.querySelector('.cell-strike');
     const strikeWrapper = tr.querySelector('.strike-wrapper');
-    strikeTypeSelect.addEventListener('change', () => {
-        if (strikeTypeSelect.value === 'RelativeStrike') {
-            strikeInput.placeholder = '100';
-            strikeInput.step = '1';
-            strikeWrapper.classList.add('rel-mode');
-        } else {
+    const qtyTypeSelect = tr.querySelector('.cell-quantity-type');
+    const execMethodSelect = tr.querySelector('.cell-exec-method');
+
+    function syncDropdowns(source) {
+        if (source.value === 'Unit' || source.value === 'AbsStrike' || source.value === 'DeltaAdj') {
+            qtyTypeSelect.value = 'Unit';
+            strikeTypeSelect.value = 'AbsStrike';
+            execMethodSelect.value = 'DeltaAdj';
+            // Trigger strike type logic (placeholders)
             strikeInput.placeholder = '150';
             strikeInput.step = '0.01';
             strikeWrapper.classList.remove('rel-mode');
+        } else if (source.value === 'Notional' || source.value === 'RelativeStrike' || source.value === 'Re-Ref') {
+            qtyTypeSelect.value = 'Notional';
+            strikeTypeSelect.value = 'RelativeStrike';
+            execMethodSelect.value = 'Re-Ref';
+            // Trigger strike type logic (placeholders)
+            strikeInput.placeholder = '100';
+            strikeInput.step = '1';
+            strikeWrapper.classList.add('rel-mode');
         }
+    }
+
+    qtyTypeSelect.addEventListener('change', (e) => syncDropdowns(e.target));
+    execMethodSelect.addEventListener('change', (e) => syncDropdowns(e.target));
+    strikeTypeSelect.addEventListener('change', (e) => {
+        syncDropdowns(e.target);
+        // Explicitly trigger finals recalculation when strike type changes
+        calculateFinals(rowId);
     });
 
     // Ticker blur handler — fetch defaults
@@ -176,6 +219,44 @@ function createGridRow(data = {}) {
         tr.querySelector('.cell-borrow').placeholder = defaults.borrow;
     });
 
+    // "Get Spot" handler
+    const getSpotBtn = tr.querySelector('.get-spot-btn');
+    const execSpotInput = tr.querySelector('.cell-exec-spot');
+    getSpotBtn.addEventListener('click', async () => {
+        const ticker = tickerInput.value.trim();
+        if (!ticker) {
+            alert("Please enter a ticker first.");
+            return;
+        }
+
+        // Temporarily disable the button to show progress
+        getSpotBtn.innerText = '...';
+        getSpotBtn.disabled = true;
+
+        try {
+            const defaults = await fetchTickerDefaults(ticker);
+            if (defaults && defaults.spot) {
+                execSpotInput.value = defaults.spot;
+                // Trigger calculation if needed
+                calculateFinals(rowId);
+            } else {
+                alert("Could not find spot for ticker: " + ticker);
+            }
+        } catch (e) {
+            console.error("Error fetching spot", e);
+        } finally {
+            getSpotBtn.innerText = 'Get';
+            getSpotBtn.disabled = false;
+        }
+    });
+
+    // Recalculate finals on relevant input changes
+    const inputsToWatch = ['.cell-quantity', '.cell-quantity-type', '.cell-strike-type', '.cell-strike', '.cell-exec-spot', '.cell-spot'];
+    inputsToWatch.forEach(selector => {
+        tr.querySelector(selector).addEventListener('input', () => calculateFinals(rowId));
+        tr.querySelector(selector).addEventListener('change', () => calculateFinals(rowId));
+    });
+
     gridBody.appendChild(tr);
 
     // Initialize Flatpickr on the maturity date input
@@ -187,11 +268,84 @@ function createGridRow(data = {}) {
     }
 }
 
+// Function to calculate and update Final Strikes, Prices, and Quantities
+function calculateFinals(rowId) {
+    const tr = document.getElementById(`row-${rowId}`);
+    if (!tr) return;
+
+    const optData = pricedOptions.find(o => o.id === rowId);
+
+    // Read inputs
+    const strike = parseFloat(tr.querySelector('.cell-strike').value) || 0;
+    const strikeType = tr.querySelector('.cell-strike-type').value;
+    const qty = parseFloat(tr.querySelector('.cell-quantity').value) || 0;
+    const qtyType = tr.querySelector('.cell-quantity-type').value;
+
+    // ExecSpot takes precedence. If missing, fall back to override, then placeholder (refSpot)
+    const rawExecSpot = tr.querySelector('.cell-exec-spot').value;
+    const refSpotVal = tr.querySelector('.cell-spot').value || tr.querySelector('.cell-spot').placeholder;
+    const effectiveSpot = rawExecSpot ? parseFloat(rawExecSpot) : parseFloat(refSpotVal);
+
+    const fStrikeCell = document.getElementById(`final-strike-${rowId}`);
+    const fPriceCell = document.getElementById(`final-price-${rowId}`);
+    const fQtyCell = document.getElementById(`final-qty-${rowId}`);
+
+    // If we can't determine a spot and we need one for relative calcs, bail
+    const needSpot = (strikeType === 'RelativeStrike' || qtyType === 'Notional');
+    if (needSpot && (isNaN(effectiveSpot) || effectiveSpot <= 0)) {
+        fStrikeCell.innerText = '-';
+        fPriceCell.innerText = '-';
+        fQtyCell.innerText = '-';
+        return;
+    }
+
+    // 1. Final Strike
+    if (strikeType === 'RelativeStrike') {
+        const finalStrike = (strike / 100) * effectiveSpot;
+        fStrikeCell.innerText = finalStrike.toFixed(4);
+    } else {
+        fStrikeCell.innerText = strike.toFixed(4);
+    }
+
+    // 2. Final Quantity
+    if (qtyType === 'Notional') {
+        const finalQty = qty / effectiveSpot;
+        fQtyCell.innerText = finalQty.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    } else {
+        fQtyCell.innerText = qty.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    }
+
+    // 3. Final Price (Requires that we have already priced the option via API)
+    if (optData && optData.price !== undefined) {
+        if (strikeType === 'RelativeStrike') {
+            // Price from API is absolute dollar amount. 
+            // In earlier implementation, UI showed % but the optData.price is raw.
+            // When strike is relative, the underlying API returned the dollar price calculated off the ref_spot.
+            // If exec_spot changed, strictly speaking we might need a reprice, but if we just scale the original % price to the new exec_spot:
+            // the initial % price was (optData.price / optData.payload.ref_spot).
+            const originalRefSpot = optData.payload.ref_spot || effectiveSpot;
+            const pctPrice = optData.price / originalRefSpot;
+            const finalPrice = pctPrice * effectiveSpot;
+            fPriceCell.innerText = `$${finalPrice.toFixed(4)}`;
+        } else {
+            // DeltaAdj: Final Price = API_price + (ExecSpot - OriginalSpot) * delta
+            const originalSpot = optData.payload.ref_spot || optData.payload.spot_override || effectiveSpot;
+            const delta = optData.delta / 100; // API returns delta as percentage, convert back
+            const finalPrice = optData.price + (effectiveSpot - originalSpot) * delta;
+            fPriceCell.innerText = `$${finalPrice.toFixed(4)}`;
+        }
+    } else {
+        fPriceCell.innerText = '-';
+    }
+}
+
 // Global Override: Apply Overrides function
 function applyGlobalOverrides() {
     const overrides = [
         { globalId: 'global-ticker', targetClass: '.cell-ticker', name: 'Ticker' },
         { globalId: 'global-type', targetClass: '.cell-type', name: 'Type' },
+        { globalId: 'global-quantity', targetClass: '.cell-quantity', name: 'Quantity' },
+        { globalId: 'global-quantity-type', targetClass: '.cell-quantity-type', name: 'QtyType' },
         { globalId: 'global-strike', targetClass: '.cell-strike', name: 'Strike' },
         { globalId: 'global-maturity', targetClass: '.cell-ttm', name: 'Maturity Date' },
         { globalId: 'global-spot', targetClass: '.cell-spot', name: 'RefSpot' },
@@ -199,7 +353,10 @@ function applyGlobalOverrides() {
         { globalId: 'global-vol', targetClass: '.cell-vol', name: 'Vol' },
         { globalId: 'global-div', targetClass: '.cell-div', name: 'Div' },
         { globalId: 'global-borrow', targetClass: '.cell-borrow', name: 'Borrow' },
+        { globalId: 'global-exec-spot', targetClass: '.cell-exec-spot', name: 'ExecSpot' },
     ];
+
+
 
     const rows = Array.from(gridBody.querySelectorAll('tr'));
     if (rows.length === 0) { alert('No rows to apply overrides to.'); return; }
@@ -220,6 +377,8 @@ function applyGlobalOverrides() {
                 target._flatpickr.setDate(globalVal, true);
             } else {
                 target.value = globalVal;
+                // Dispatch input event to trigger final calculations if applicable
+                target.dispatchEvent(new Event('input', { bubbles: true }));
             }
         });
     });
@@ -322,6 +481,12 @@ adhocForm.addEventListener('submit', async (e) => {
         if (div) payload.div_override = parseFloat(div);
         if (borrow) payload.borrow_override = parseFloat(borrow);
 
+        // Include new fields for completeness (and API if updated later)
+        payload.quantity = parseFloat(tr.querySelector('.cell-quantity').value) || 1;
+        payload.quantity_type = tr.querySelector('.cell-quantity-type').value;
+        const execSpot = tr.querySelector('.cell-exec-spot').value;
+        if (execSpot) payload.exec_spot = parseFloat(execSpot);
+
         return payload;
     });
 
@@ -371,6 +536,9 @@ async function processGridRequest(req) {
         const checkbox = document.getElementById(`check-${req.id}`);
         checkbox.disabled = false;
         checkbox.checked = true;
+
+        // Recalculate Finals now that we have the price
+        calculateFinals(req.id);
 
     } catch (err) {
         priceCell.innerText = "Error";
@@ -494,6 +662,29 @@ async function fetchEmails() {
 
 refreshEmailsBtn.addEventListener('click', fetchEmails);
 
+// Portfolio mapping: ticker -> portfolio name
+const PORTFOLIO_MAP = {
+    'AAPL': 'US Tech Equity',
+    'MSFT': 'US Tech Equity',
+    'NVDA': 'US Tech Equity',
+    'AMZN': 'US Tech Equity',
+    'TSLA': 'US Tech Equity',
+    'SPY': 'US Index',
+    'SPX': 'US Index',
+    'NDX': 'US Index',
+    'RTY': 'US Index',
+    'INDU': 'US Index',
+    'UKX': 'EMEA Index',
+    'SX5E': 'EMEA Index',
+    'NKY': 'APAC Index',
+    'HSI': 'APAC Index',
+};
+const DEFAULT_PORTFOLIO = 'General Trading';
+
+function getPortfolio(ticker) {
+    return PORTFOLIO_MAP[(ticker || '').toUpperCase()] || DEFAULT_PORTFOLIO;
+}
+
 // --- 4. Booking Initialization ---
 bookSelectedBtn.addEventListener('click', async () => {
     const checkedRows = Array.from(document.querySelectorAll('.row-select:checked')).map(cb => cb.id.replace('check-', ''));
@@ -509,10 +700,46 @@ bookSelectedBtn.addEventListener('click', async () => {
         let successCount = 0;
 
         for (const opt of optionsToBook) {
+            const tr = document.getElementById(`row-${opt.id}`);
+            if (!tr) continue;
+
+            // Read final values from the DOM
+            const ticker = tr.querySelector('.cell-ticker').value;
+            const optionType = tr.querySelector('.cell-type').value;
+            const strikeType = tr.querySelector('.cell-strike-type').value;
+            const execMethod = tr.querySelector('.cell-exec-method').value;
+            const counterparty = tr.querySelector('.cell-counterparty').value;
+            const maturity = tr.querySelector('.cell-ttm').value;
+            const execSpot = tr.querySelector('.cell-exec-spot').value;
+            const refSpot = tr.querySelector('.cell-spot').value || tr.querySelector('.cell-spot').placeholder;
+
+            const finalStrike = document.getElementById(`final-strike-${opt.id}`)?.innerText || '-';
+            const finalPrice = document.getElementById(`final-price-${opt.id}`)?.innerText || '-';
+            const finalQty = document.getElementById(`final-qty-${opt.id}`)?.innerText || '-';
+
+            const bookingPayload = {
+                instrument: 'Option',
+                ticker: ticker,
+                option_type: optionType,
+                strike_type: strikeType,
+                exec_method: execMethod,
+                maturity: maturity,
+                counterparty: counterparty,
+                portfolio: getPortfolio(ticker),
+                ref_spot: parseFloat(refSpot) || null,
+                exec_spot: parseFloat(execSpot) || null,
+                indicative_price: opt.price,
+                indicative_delta: opt.delta,
+                final_strike: finalStrike,
+                final_price: finalPrice,
+                final_quantity: finalQty,
+                action: 'INITIATE_BOOKING'
+            };
+
             const response = await fetch(`${API_BASE}/book`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(opt.payload)
+                body: JSON.stringify(bookingPayload)
             });
             if (response.ok) {
                 successCount++;
@@ -543,7 +770,7 @@ flatpickr(document.getElementById('global-maturity'), flatpickrConfig);
 
 // --- 5. Copy Grid to Clipboard (Excel-friendly) ---
 function copyGridToClipboard() {
-    const headers = ['Ticker', 'Type', 'StrikeType', 'Strike', 'Maturity', 'Return Type', 'RefSpot', 'Rate', 'Vol', 'Div', 'Borrow', 'Counterparty', 'ExecMethod', 'Price', 'Delta'];
+    const headers = ['Ticker', 'Type', 'Quantity', 'QtyType', 'StrikeType', 'Strike', 'Maturity', 'Return Type', 'RefSpot', 'Rate', 'Vol', 'Div', 'Borrow', 'Counterparty', 'ExecMethod', 'Price', 'Delta', 'ExecSpot', 'Final Strike', 'Final Price', 'Final Qty'];
     const rows = Array.from(gridBody.querySelectorAll('tr'));
 
     if (rows.length === 0) { alert('No data to copy.'); return; }
@@ -553,6 +780,8 @@ function copyGridToClipboard() {
     rows.forEach(tr => {
         const ticker = tr.querySelector('.cell-ticker')?.value || '';
         const type = tr.querySelector('.cell-type')?.value || '';
+        const quantity = tr.querySelector('.cell-quantity')?.value || '';
+        const qtyType = tr.querySelector('.cell-quantity-type')?.value || '';
         const strikeType = tr.querySelector('.cell-strike-type')?.value || '';
         const strike = tr.querySelector('.cell-strike')?.value || '';
         const maturity = tr.querySelector('.cell-ttm')?.value || '';
@@ -568,8 +797,12 @@ function copyGridToClipboard() {
         const price = priceCell ? priceCell.innerText.replace('$', '') : '';
         const deltaCell = tr.querySelector('.delta-cell');
         const delta = deltaCell ? deltaCell.innerText : '';
+        const execSpot = tr.querySelector('.cell-exec-spot')?.value || '';
+        const fStrike = document.getElementById(`final-strike-${tr.dataset.rowId}`)?.innerText || '';
+        const fPrice = document.getElementById(`final-price-${tr.dataset.rowId}`)?.innerText || '';
+        const fQty = document.getElementById(`final-qty-${tr.dataset.rowId}`)?.innerText || '';
 
-        lines.push([ticker, type, strikeType, strike, maturity, returnType, spot, rate, vol, div, borrow, counterparty, execMethod, price, delta].join('\t'));
+        lines.push([ticker, type, quantity, qtyType, strikeType, strike, maturity, returnType, spot, rate, vol, div, borrow, counterparty, execMethod, price, delta, execSpot, fStrike, fPrice, fQty].join('\t'));
     });
 
     const tsv = lines.join('\n');
